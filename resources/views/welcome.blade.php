@@ -39,6 +39,6 @@
         <img class ="logo" alt="Vue logo" src="{{ asset('images/logo.png') }}">
         <todo-list></todo-list>
       </div>
+      <script src=" {{ mix('js/app.js') }} "></script>
     </body>
-    <script src=" {{ mix('js/app.js') }} "></script>
 </html>
