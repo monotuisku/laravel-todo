@@ -47798,6 +47798,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'todo-list',
@@ -47822,7 +47832,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   directives: {
     focus: {
-      // ディレクティブ定義
       inserted: function inserted(el) {
         el.focus();
       }
@@ -47837,16 +47846,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   methods: {
     addTodo: function addTodo() {
-      var value = this.newTodo && this.newTodo.trim();
+      var value = this.todo.title && this.todo.title.trim();
       if (!value) {
+        //もし内容が空ならメソッドここでおわり
         return;
       }
+      //todosの配列にプッシュ
       this.todos.push({
         'id': this.idForTodo,
         'title': this.newTodo,
         'completed': false,
         'editing': false
       });
+      //配列に追加が終わったら、newtodoを空にして、idをインクリメント
       this.newTodo = '';
       this.idForTodo++;
     },
@@ -47855,7 +47867,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       todo.editing = true;
     },
     doneEdit: function doneEdit(todo) {
-      var value = this.newTodo && this.newTodo.trim();
+      var value = todo.title && todo.title.trim();
       if (!value) {
         todo.title = todo.beforeEditCache;
       }

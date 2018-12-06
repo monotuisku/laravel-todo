@@ -1,16 +1,26 @@
 <template>
   <div class="">
+    <!-- ①todoの追加 newTodoに値を渡して、enterキーでaddTodoメソッド実行　-->
     <input type="text" name="todo-input" placeholder="input Tasks..." class="todo-input" v-model="newTodo" @keyup.enter="addTodo">
+    <!-- ②todoのリストを表示 -->
     <ul class="todo-list">
       <li v-for="(todo, index) in todos" :key="todo.id" class="todo-list__item">
         <div class="todo-list__textarea">
+
+          <!-- ③todoのcompletedのステータスと同期 -->
           <input type="checkbox" v-model="todo.completed" class="todo-list__check">
+
+          <!-- ④ダブルクリックで編集editTodoメソッド実行　completedがtrueの場合は、completedクラスを追加 -->
           <span v-if="!todo.editing" @dblclick="editTodo(todo)" class="todo-list__label" :class="{completed:todo.completed}">{{todo.title}}</span>
           <input v-else type="text" v-model="todo.title" class="todo-list__edit" @blur="doneEdit(todo)" @keyup.enter="doneEdit(todo)" @keyup.esc="cancelEdit(todo)" v-focus>
         </div>
+
+        <!-- ⑤todoの削除 クリックでremoveTodoメソッド実行　-->
         <span class="todo-list__bin" @click="removeTodo(index)">&times;</span>
       </li>
     </ul>
+
+    <!-- ⑥残りタスクを計算して表示 -->
     <p>{{remaining}} items left</p>
   </div>
 </template>
@@ -41,7 +51,6 @@ export default {
   },
   directives: {
     focus: {
-      // ディレクティブ定義
       inserted: function (el) {
         el.focus()
       }
@@ -56,14 +65,17 @@ export default {
     addTodo () {
       var value = this.newTodo && this.newTodo.trim()
       if(!value) {
+        //もし内容が空ならメソッドここでおわり
         return
       }
+      //todosの配列にプッシュ
       this.todos.push({
         'id': this.idForTodo,
         'title': this.newTodo,
         'completed': false,
         'editing': false,
       })
+      //配列に追加が終わったら、newtodoを空にして、idをインクリメント
       this.newTodo = ''
       this.idForTodo++
     },
@@ -72,7 +84,7 @@ export default {
       todo.editing = true
     },
     doneEdit(todo) {
-      var value = this.newTodo && this.newTodo.trim()
+      var value = todo.title && todo.title.trim()
       if(!value) {
         todo.title = todo.beforeEditCache
       }
